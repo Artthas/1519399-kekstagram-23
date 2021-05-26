@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Alexander Gnetov](https://up.htmlacademy.ru/javascript/23/user/1519399).
-* Наставник: `Неизвестно`.
+* Наставник: [Полина Прокофьева](https://htmlacademy.ru/profile/id1322073).
 
 ---
 

@@ -1,16 +1,16 @@
 function getRandomInRange(min, max) {
-  if (typeof(min) == number && typeof(max) == number) {
+  if (typeof(min) === 'number' && typeof(max) === 'number') {
     if (min >= 0 && max > 0) {
       if (min < max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
-      console.log("min больше или равен max");
+      alert('min больше или равен max');
       return;
     }
-    console.log("min или max не является положительным числом");
+    alert('min или max не является положительным числом');
     return;
   }
-  console.log("min или max не является целым числом");
+  alert('min или max не является целым числом');
   return;
 }
 
@@ -20,3 +20,6 @@ function checkMaxLengthString(string, length) {
   }
   return false;
 }
+
+getRandomInRange(0, 10);
+checkMaxLengthString('Привет', 10);

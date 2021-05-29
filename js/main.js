@@ -4,14 +4,11 @@ function getRandomInRange(min, max) {
       if (min < max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
-      alert('min больше или равен max');
-      return;
+      return 'min больше или равен max';
     }
-    alert('min или max не является положительным числом');
-    return;
+    return 'min или max не является положительным числом';
   }
-  alert('min или max не является целым числом');
-  return;
+  return 'min или max не является целым числом';
 }
 
 function checkMaxLengthString(string, length) {

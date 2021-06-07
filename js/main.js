@@ -32,13 +32,13 @@ const COMMENTS_MESSAGE = [
 
 for (let i = 0; ID.length < 25; i++) {
   ID[i] = i + 1;
-  URL[i] = 'photos/${i + 1}.jpg';
+  URL[i] = `photos/${i + 1}.jpg`;
 }
 for (let i = 0; LIKES.length < 200; i++) {
   LIKES[i] = i + 15;
 }
 for (let i = 0; COMMENTS_AVATAR.length < 6; i++) {
-  COMMENTS_AVATAR[i] = 'img/avatar-${i + 1}.svg';
+  COMMENTS_AVATAR[i] = `img/avatar-${i + 1}.svg`;
 }
 
 const getRandomArrayElement = (elements) => {

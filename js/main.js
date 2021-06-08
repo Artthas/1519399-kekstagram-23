@@ -42,19 +42,19 @@ for (let i = 0; COMMENTS_AVATAR.length < 6; i++) {
 }
 
 const getRandomArrayElement = (elements) => {
-  let indexArray = elements[getRandomInRange(0, elements.length - 1)];
+  const indexArray = elements[getRandomInRange(0, elements.length - 1)];
   elements.splice(indexArray, 1);
   return indexArray;
 };
 
 const createPhoto = () => {
-  let copiedId = ID.slice();
-  let copiedUrl = URL.slice();
-  let copiedDescription = DESCRIPTION.slice();
-  let copiedLikes = LIKES.slice();
-  let copiedCommentsAvatar = COMMENTS_AVATAR.slice();
-  let copiedCommentsMessage = COMMENTS_MESSAGE.slice();
-  let copiedCommentsName = COMMENTS_NAME.slice();
+  const copiedId = ID.slice();
+  const copiedUrl = URL.slice();
+  const copiedDescription = DESCRIPTION.slice();
+  const copiedLikes = LIKES.slice();
+  const copiedCommentsAvatar = COMMENTS_AVATAR.slice();
+  const copiedCommentsMessage = COMMENTS_MESSAGE.slice();
+  const copiedCommentsName = COMMENTS_NAME.slice();
 
   return {
     id: getRandomArrayElement(copiedId),
@@ -73,3 +73,5 @@ const createPhoto = () => {
 const PHOTOS_AMOUNT = 25;
 
 const similarPhotos = new Array(PHOTOS_AMOUNT).fill(null).map(() => createPhoto());
+
+similarPhotos();

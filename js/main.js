@@ -1,6 +1,5 @@
-const descriptions = ['акула', 'кот', 'собака', 'лес', 'море', 'тайга', 'кит', 'бурундук'];
-const commentNames = ['Александр', 'Владимир', 'Владислав', 'Андрей', 'Алексей', 'Сергей', 'Роман'];
-const commentAvatars = [];
+const DESCRIPTIONS = ['акула', 'кот', 'собака', 'лес', 'море', 'тайга', 'кит', 'бурундук'];
+const COMMENT_NAMES = ['Александр', 'Владимир', 'Владислав', 'Андрей', 'Алексей', 'Сергей', 'Роман'];
 const COMMENT_MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -28,10 +27,6 @@ function checkMaxLengthString(string, length) {
 getRandomInRange(0, 10);
 checkMaxLengthString('Привет', 10);
 
-for (let i = 0; commentAvatars.length < 6; i++) {
-  commentAvatars[i] = `img/avatar-${i + 1}.svg`;
-}
-
 const getRandomArrayElement = (elements) => {
   const indexArray = elements[getRandomInRange(0, elements.length - 1)];
   return indexArray;
@@ -41,7 +36,7 @@ const createComment = (j) => ({
   id: j + 1,
   avatar: `img/avatar-${getRandomInRange(1, 6)}.svg`,
   message: getRandomArrayElement(COMMENT_MESSAGES),
-  name: getRandomArrayElement(commentNames),
+  name: getRandomArrayElement(COMMENT_NAMES),
 });
 
 const createPhoto = (i) => {
@@ -50,7 +45,7 @@ const createPhoto = (i) => {
   return {
     id: i + 1,
     url: `photos/${i + 1}.jpg`,
-    description: getRandomArrayElement(descriptions),
+    description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomInRange(15, 200),
     comments,
   };

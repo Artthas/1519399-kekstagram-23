@@ -31,8 +31,10 @@ const createPhoto = (i) => {
   };
 };
 
-const similarPhotos = new Array(PHOTOS_AMOUNT).fill(null).map((element, i) => createPhoto(i));
+const similarPhotos = () => new Array(PHOTOS_AMOUNT).fill(null).map((element, i) => createPhoto(i));
 
 similarPhotos;
 
 checkMaxLengthString('Привет', 10);
+
+export {similarPhotos};

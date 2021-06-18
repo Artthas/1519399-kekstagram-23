@@ -1,4 +1,4 @@
-import {getRandomInRange, checkMaxLengthString, getRandomArrayElement} from './util.js';
+import {getRandomInRange, getRandomArrayElement} from './util.js';
 
 const DESCRIPTIONS = ['акула', 'кот', 'собака', 'лес', 'море', 'тайга', 'кит', 'бурундук'];
 const COMMENT_NAMES = ['Александр', 'Владимир', 'Владислав', 'Андрей', 'Алексей', 'Сергей', 'Роман'];
@@ -31,8 +31,6 @@ const createPhoto = (i) => {
   };
 };
 
-const similarPhotos = new Array(PHOTOS_AMOUNT).fill(null).map((element, i) => createPhoto(i));
+const getSimilarPhotos = () => new Array(PHOTOS_AMOUNT).fill(null).map((element, i) => createPhoto(i));
 
-similarPhotos;
-
-checkMaxLengthString('Привет', 10);
+export {getSimilarPhotos};

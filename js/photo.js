@@ -1,4 +1,4 @@
-import {getRandomInRange, checkMaxLengthString, getRandomArrayElement} from './util.js';
+import {getRandomInRange, getRandomArrayElement} from './util.js';
 
 const DESCRIPTIONS = ['акула', 'кот', 'собака', 'лес', 'море', 'тайга', 'кит', 'бурундук'];
 const COMMENT_NAMES = ['Александр', 'Владимир', 'Владислав', 'Андрей', 'Алексей', 'Сергей', 'Роман'];

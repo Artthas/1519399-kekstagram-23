@@ -1,11 +1,11 @@
-import {similarPhotos} from './photo.js';
+import {getSimilarPhotos} from './photo.js';
 
 const pictureList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const pictureArray = similarPhotos();
+const pictureArray = getSimilarPhotos();
 
 const pictureListFragment = document.createDocumentFragment();
 

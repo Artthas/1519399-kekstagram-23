@@ -19,7 +19,7 @@ const cancelEscKeydown = (evt) => {
     evt.preventDefault();
     evt.stopPropagation();
   }
-}
+};
 
 textHashtags.addEventListener('keydown', cancelEscKeydown);
 

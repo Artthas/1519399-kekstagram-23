@@ -73,6 +73,8 @@ textHashtags.addEventListener('blur', () => {
     message = ERROR_MESSAGES[0];
   } else if (unique.length !== hashtags.length) {
     message = ERROR_MESSAGES[1];
+  } else if (textHashtags.value === '') {
+    message = '';
   } else {
     for (const tag of hashtags) {
       message = re.test(tag) ? message : ERROR_MESSAGES[2];

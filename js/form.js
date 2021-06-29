@@ -14,6 +14,17 @@ const imgUploadCancel = document.querySelector('#upload-cancel');
 const textHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
 
+const cancelEscKeydown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
+}
+
+textHashtags.addEventListener('keydown', cancelEscKeydown);
+
+textDescription.addEventListener('keydown', cancelEscKeydown);
+
 const closeImgUpload = () => {
   imgUploadOverlay.classList.add(CLASS_HIDDEN);
   document.body.classList.remove(CLASS_MODAL_OPEN);
@@ -22,9 +33,6 @@ const closeImgUpload = () => {
 
 const onUserModalEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
-    if (textHashtags.hasFocus() || textDescription.hasFocus()) {
-      return;
-    }
     evt.preventDefault();
     closeImgUpload();
     document.removeEventListener('keydown', onUserModalEscKeydown);
@@ -49,9 +57,9 @@ imgUploadCancel.addEventListener('click', () => {
 
 /* Validation */
 
-const reportAndSetCustomValidity = (message) => {
-  textHashtags.setCustomValidity(message);
-  textHashtags.reportValidity();
+const reportAndSetCustomValidity = (message, inputForm) => {
+  inputForm.setCustomValidity(message);
+  inputForm.reportValidity();
 };
 
 textHashtags.addEventListener('blur', () => {
@@ -71,7 +79,7 @@ textHashtags.addEventListener('blur', () => {
     }
   }
 
-  reportAndSetCustomValidity(message);
+  reportAndSetCustomValidity(message, textHashtags);
 });
 
 textDescription.addEventListener('blur', () => {
@@ -80,5 +88,5 @@ textDescription.addEventListener('blur', () => {
 
   message = textDescription.value.length > textDescriptionMaxSymbols ? ERROR_MESSAGES[3] : '';
 
-  reportAndSetCustomValidity(message);
+  reportAndSetCustomValidity(message, textDescription);
 });

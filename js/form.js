@@ -13,7 +13,6 @@ const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const imgUploadCancel = document.querySelector('#upload-cancel');
 const textHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
-
 const cancelEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();

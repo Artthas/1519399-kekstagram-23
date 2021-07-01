@@ -1,3 +1,4 @@
 import './util.js';
 import './photo.js';
-import './generate-photos.js';
+import './photos-generation.js';
+import './form.js';

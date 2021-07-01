@@ -17,7 +17,6 @@ const getRandomArrayElement = (elements) => {
   return indexArray;
 };
 
-getRandomInRange(0, 10);
-checkMaxLengthString('Привет', 10);
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-export {getRandomInRange, checkMaxLengthString, getRandomArrayElement};
+export {getRandomInRange, checkMaxLengthString, getRandomArrayElement, isEscEvent};

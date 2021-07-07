@@ -9,7 +9,7 @@ const EFFECT_STYLES = {
   phobos: { name: 'blur', measure: 'px' },
   heat: { name: 'brightness', measure: '' },
 };
-let scaleNumber = 1;
+let numberOfScale = 1;
 
 function scaleImage(maxValue, isEnlarge, evt) {
   scaleControlValue.value = parseFloat(scaleControlValue.value);
@@ -17,13 +17,13 @@ function scaleImage(maxValue, isEnlarge, evt) {
     evt.preventDefault();
   } else if (isEnlarge === '+') {
     scaleControlValue.value = Number(scaleControlValue.value) + Number(25);
-    scaleNumber += 0.25;
+    numberOfScale += 0.25;
   } else if (isEnlarge === '-') {
     scaleControlValue.value -= 25;
-    scaleNumber -= 0.25;
+    numberOfScale -= 0.25;
   }
   scaleControlValue.value += '%';
-  imgUploadPreview.style = `transform: scale(${scaleNumber})`;
+  imgUploadPreview.style = `transform: scale(${numberOfScale})`;
 }
 
 scaleControlSmaller.addEventListener('click', (evt) => {
@@ -42,6 +42,7 @@ const imgUploadPreviewPicture = document.querySelector('.img-upload__preview-pic
 const effectLevelValue = document.querySelector('.effect-level__value');
 
 imgUploadEffects.addEventListener('change', (evt) => {
+  const effects = Object.keys(EFFECT_STYLES);
   const options = {
     range: {
       min: 0,
@@ -56,21 +57,21 @@ imgUploadEffects.addEventListener('change', (evt) => {
     imgUploadPreviewPicture.style = '';
   }
   imgUploadPreviewPicture.className = 'img-upload__preview-picture';
-  for (let i = 0; i < Object.keys(EFFECT_STYLES).length; i++) {
+  for (let i = 0; i < effects.length; i++) {
     let effectClass = 'effects__preview--';
-    if (Object.keys(EFFECT_STYLES)[i] === evt.target.value) {
+    if (effects[i] === evt.target.value) {
       effectClass += evt.target.value;
       imgUploadPreviewPicture.classList.add(effectClass);
       noUiSlider.create(sliderElement, options);
     }
   }
-  if (evt.target.value === Object.keys(EFFECT_STYLES)[0] || evt.target.value === Object.keys(EFFECT_STYLES)[1]) {
+  if (evt.target.value === effects[0] || evt.target.value === effects[1]) {
     options.range.max = 1;
-  } else if (evt.target.value === Object.keys(EFFECT_STYLES)[2]) {
+  } else if (evt.target.value === effects[2]) {
     options.range.max = 100;
     options.start = 100;
     options.step = 1;
-  } else if (evt.target.value === Object.keys(EFFECT_STYLES)[3] || evt.target.value === Object.keys(EFFECT_STYLES)[4]) {
+  } else if (evt.target.value === effects[3] || evt.target.value === effects[4]) {
     options.range.max = 3;
     options.start = 3;
   }

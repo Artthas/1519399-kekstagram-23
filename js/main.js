@@ -16,10 +16,8 @@ fetch('https://23.javascript.pages.academy/kekstagram/data')
     throw new Error(`${response.status} ${response.statusText}`);
   })
   .then((photos) => {
-    renderSimilarPhotos(photos)
+    renderSimilarPhotos(photos);
   })
-  .catch((err) => {
-    console.error(err);
-  });
+  .catch();
 
-  setFormSubmit(closeImgUpload);
+setFormSubmit(closeImgUpload);

@@ -9,6 +9,7 @@ const ERROR_MESSAGES = [
   'хэш-тег начинается с символа # (решётка)\nстрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.',
   'длина комментария не может составлять больше 140 символов',
 ];
+const imgUploadPreviewPicture = document.querySelector('.img-upload__preview-picture');
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = document.querySelector('#upload-file');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -30,8 +31,8 @@ const closeImgUpload = () => {
   imgUploadOverlay.classList.add(CLASS_HIDDEN);
   document.body.classList.remove(CLASS_MODAL_OPEN);
   imgUploadInput.value = '';
-  document.querySelector('.img-upload__preview-picture').className = 'img-upload__preview-picture';
-  document.querySelector('.img-upload__preview-picture').style = '';
+  imgUploadPreviewPicture.className = 'img-upload__preview-picture';
+  imgUploadPreviewPicture.style = '';
   document.querySelector('.img-upload__preview').style = '';
   document.querySelector('.scale__control--value').value = '100%';
   if (document.querySelector('.effect-level__slider').className !== 'effect-level__slider') {
@@ -112,82 +113,73 @@ const successWindowTemplate = document.querySelector('#success')
 const errorWindowTemplate = document.querySelector('#error')
   .content
   .querySelector('.error');
+const successWindow = successWindowTemplate.cloneNode(true);
+const errorWindow = errorWindowTemplate.cloneNode(true);
 
-const showSuccessWindow = () => {
-  const successWindow = successWindowTemplate.cloneNode(true);
-  document.body.appendChild(successWindow);
-  document.addEventListener('keydown', onSuccessEscKeydown);
-  document.addEventListener('click', onSuccessClickDown);
-}
-const showErrorWindow = () => {
-  const errorWindow = errorWindowTemplate.cloneNode(true);
-  document.body.appendChild(errorWindow);
-  document.addEventListener('keydown', onErrorEscKeydown);
-  document.addEventListener('click', onErrorClickDown);
-}
-const onSuccessEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
-    document.body.removeChild(document.querySelector('.success'));
-    document.removeEventListener('keydown', onSuccessEscKeydown);
-    document.removeEventListener('click', onSuccessClickDown);
-  }
-};
-const onErrorEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
-    document.body.removeChild(document.querySelector('.error'));
-    document.removeEventListener('keydown', onErrorEscKeydown);
-    document.removeEventListener('click', onErrorClickDown);
-  }
-};
-const onSuccessClickDown = (evt) => {
+const onSuccessDown = (evt) => {
   if (evt.target === document.querySelector('.success__inner')) {
     evt.preventDefault();
+  } else if (isEscEvent(evt)) {
+    evt.preventDefault();
+    document.body.removeChild(document.querySelector('.success'));
+    document.removeEventListener('click', onSuccessDown);
+    document.removeEventListener('keydown', onSuccessDown);
   } else {
     document.body.removeChild(document.querySelector('.success'));
-    document.removeEventListener('click', onSuccessClickDown);
-    document.removeEventListener('keydown', onSuccessEscKeydown);
+    document.removeEventListener('click', onSuccessDown);
+    document.removeEventListener('keydown', onSuccessDown);
   }
-}
-const onErrorClickDown = (evt) => {
+};
+const onErrorDown = (evt) => {
   if (evt.target === document.querySelector('.error__inner')) {
     evt.preventDefault();
+  } else if (isEscEvent(evt)) {
+    document.body.removeChild(document.querySelector('.error'));
+    document.removeEventListener('click', onErrorDown);
+    document.removeEventListener('keydown', onErrorDown);
   } else {
     document.body.removeChild(document.querySelector('.error'));
-    document.removeEventListener('click', onErrorClickDown);
-    document.removeEventListener('keydown', onErrorEscKeydown);
+    document.removeEventListener('click', onErrorDown);
+    document.removeEventListener('keydown', onErrorDown);
   }
-}
+};
+const showSuccessErrorWindow = (window) => {
+  document.body.appendChild(window);
+  if (window === successWindow) {
+    document.addEventListener('keydown', onSuccessDown);
+    document.addEventListener('click', onSuccessDown);
+  } else if (window === errorWindow) {
+    document.addEventListener('keydown', onErrorDown);
+    document.addEventListener('click', onErrorDown);
+  }
+};
 
 const setFormSubmit = (onSuccess) => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  
     const formData = new FormData(evt.target);
-  
     fetch(
-      'https://23.javascript.pages.academy/kekstagram',
+      'https://23.javascript.pages.academy/kekstagram1',
       {
         method: 'POST',
         body: formData,
       },
     ).then((response) => {
-       if (response.ok) {
+      if (response.ok) {
         onSuccess();
-        showSuccessWindow();
-       } else {
+        showSuccessErrorWindow(successWindow);
+      } else {
         onSuccess();
-        showErrorWindow();
-       }
-     })
-     .catch(() => {
-       onSuccess();
-       showErrorWindow();
-     })
+        showSuccessErrorWindow(errorWindow);
+      }
+    })
+      .catch(() => {
+        onSuccess();
+        showSuccessErrorWindow(errorWindow);
+      });
 
 
   });
-}
+};
 
 export {setFormSubmit, closeImgUpload};

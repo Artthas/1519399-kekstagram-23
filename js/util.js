@@ -1,3 +1,5 @@
+import {onSuccessClickDown, onSuccessKeyDown, onErrorClickDown, onErrorKeyDown} from './form.js';
+
 function getRandomInRange(min, max) {
   if (typeof(min) === 'number' && typeof(max) === 'number') {
     if (min >= 0 && max > 0) {
@@ -19,4 +21,13 @@ const getRandomArrayElement = (elements) => {
 
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-export {getRandomInRange, checkMaxLengthString, getRandomArrayElement, isEscEvent};
+const removeSuccessListener = () => {
+  document.removeEventListener('click', onSuccessClickDown);
+  document.removeEventListener('keydown', onSuccessKeyDown);
+};
+const removeErrorListener = () => {
+  document.removeEventListener('click', onErrorClickDown);
+  document.removeEventListener('keydown', onErrorKeyDown);
+};
+
+export {getRandomInRange, checkMaxLengthString, getRandomArrayElement, isEscEvent, removeErrorListener, removeSuccessListener};

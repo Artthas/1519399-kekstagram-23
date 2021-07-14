@@ -1,4 +1,4 @@
-import {isEscEvent} from './util.js';
+import {isEscEvent, removeSuccessListener, removeErrorListener} from './util.js';
 import {letNumberOfScale} from './photo-edit.js';
 
 const CLASS_HIDDEN = 'hidden';
@@ -116,41 +116,44 @@ const errorWindowTemplate = document.querySelector('#error')
 const successWindow = successWindowTemplate.cloneNode(true);
 const errorWindow = errorWindowTemplate.cloneNode(true);
 
-const onSuccessDown = (evt) => {
+const onSuccessClickDown = (evt) => {
   if (evt.target === document.querySelector('.success__inner')) {
     evt.preventDefault();
-  } else if (isEscEvent(evt)) {
-    evt.preventDefault();
-    document.body.removeChild(document.querySelector('.success'));
-    document.removeEventListener('click', onSuccessDown);
-    document.removeEventListener('keydown', onSuccessDown);
   } else {
     document.body.removeChild(document.querySelector('.success'));
-    document.removeEventListener('click', onSuccessDown);
-    document.removeEventListener('keydown', onSuccessDown);
+    removeSuccessListener();
   }
 };
-const onErrorDown = (evt) => {
+const onSuccessKeyDown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+  }
+  document.body.removeChild(document.querySelector('.success'));
+  removeSuccessListener();
+};
+const onErrorClickDown = (evt) => {
   if (evt.target === document.querySelector('.error__inner')) {
     evt.preventDefault();
-  } else if (isEscEvent(evt)) {
-    document.body.removeChild(document.querySelector('.error'));
-    document.removeEventListener('click', onErrorDown);
-    document.removeEventListener('keydown', onErrorDown);
   } else {
     document.body.removeChild(document.querySelector('.error'));
-    document.removeEventListener('click', onErrorDown);
-    document.removeEventListener('keydown', onErrorDown);
+    removeErrorListener();
   }
+};
+const onErrorKeyDown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+  }
+  document.body.removeChild(document.querySelector('.error'));
+  removeErrorListener();
 };
 const showSuccessErrorWindow = (window) => {
   document.body.appendChild(window);
   if (window === successWindow) {
-    document.addEventListener('keydown', onSuccessDown);
-    document.addEventListener('click', onSuccessDown);
+    document.addEventListener('keydown', onSuccessKeyDown);
+    document.addEventListener('click', onSuccessClickDown);
   } else if (window === errorWindow) {
-    document.addEventListener('keydown', onErrorDown);
-    document.addEventListener('click', onErrorDown);
+    document.addEventListener('keydown', onErrorKeyDown);
+    document.addEventListener('click', onErrorClickDown);
   }
 };
 
@@ -182,4 +185,4 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
-export {setFormSubmit, closeImgUpload};
+export {setFormSubmit, closeImgUpload, onSuccessClickDown, onSuccessKeyDown, onErrorClickDown, onErrorKeyDown};

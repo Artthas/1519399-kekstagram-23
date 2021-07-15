@@ -115,12 +115,14 @@ const errorWindowTemplate = document.querySelector('#error')
   .querySelector('.error');
 const successWindow = successWindowTemplate.cloneNode(true);
 const errorWindow = errorWindowTemplate.cloneNode(true);
+const successInner = successWindow.querySelector('.success__inner');
+const errorInner = errorWindow.querySelector('.error__inner');
 
 const onSuccessClickDown = (evt) => {
-  if (evt.target === document.querySelector('.success__inner')) {
+  if (evt.target === successInner) {
     evt.preventDefault();
   } else {
-    document.body.removeChild(document.querySelector('.success'));
+    document.body.removeChild(successWindow);
     removeSuccessListener();
   }
 };
@@ -128,14 +130,14 @@ const onSuccessKeyDown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
   }
-  document.body.removeChild(document.querySelector('.success'));
+  document.body.removeChild(successWindow);
   removeSuccessListener();
 };
 const onErrorClickDown = (evt) => {
-  if (evt.target === document.querySelector('.error__inner')) {
+  if (evt.target === errorInner) {
     evt.preventDefault();
   } else {
-    document.body.removeChild(document.querySelector('.error'));
+    document.body.removeChild(errorWindow);
     removeErrorListener();
   }
 };
@@ -143,7 +145,7 @@ const onErrorKeyDown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
   }
-  document.body.removeChild(document.querySelector('.error'));
+  document.body.removeChild(errorWindow);
   removeErrorListener();
 };
 const showSuccessErrorWindow = (window) => {
@@ -162,17 +164,16 @@ const setFormSubmit = (onSuccess) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     fetch(
-      'https://23.javascript.pages.academy/kekstagram1',
+      'https://23.javascript.pages.academy/kekstagram',
       {
         method: 'POST',
         body: formData,
       },
     ).then((response) => {
+      onSuccess();
       if (response.ok) {
-        onSuccess();
         showSuccessErrorWindow(successWindow);
       } else {
-        onSuccess();
         showSuccessErrorWindow(errorWindow);
       }
     })

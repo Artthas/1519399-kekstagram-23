@@ -11,6 +11,10 @@ const EFFECT_STYLES = {
 };
 let numberOfScale = 1;
 
+const letNumberOfScale = () => {
+  numberOfScale = 1;
+};
+
 function scaleImage(maxValue, isEnlarge, evt) {
   scaleControlValue.value = parseFloat(scaleControlValue.value);
   if (scaleControlValue.value === maxValue) {
@@ -85,3 +89,5 @@ imgUploadEffects.addEventListener('change', (evt) => {
     });
   }
 });
+
+export {letNumberOfScale};

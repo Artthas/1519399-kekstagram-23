@@ -1,4 +1,5 @@
-import {isEscEvent} from './util.js';
+import {isEscEvent, removeSuccessListener, removeErrorListener} from './util.js';
+import {letNumberOfScale} from './photo-edit.js';
 
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
@@ -8,6 +9,8 @@ const ERROR_MESSAGES = [
   'хэш-тег начинается с символа # (решётка)\nстрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.',
   'длина комментария не может составлять больше 140 символов',
 ];
+const imgUploadPreviewPicture = document.querySelector('.img-upload__preview-picture');
+const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = document.querySelector('#upload-file');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const imgUploadCancel = document.querySelector('#upload-cancel');
@@ -28,6 +31,16 @@ const closeImgUpload = () => {
   imgUploadOverlay.classList.add(CLASS_HIDDEN);
   document.body.classList.remove(CLASS_MODAL_OPEN);
   imgUploadInput.value = '';
+  imgUploadPreviewPicture.className = 'img-upload__preview-picture';
+  imgUploadPreviewPicture.style = '';
+  document.querySelector('.img-upload__preview').style = '';
+  document.querySelector('.scale__control--value').value = '100%';
+  if (document.querySelector('.effect-level__slider').className !== 'effect-level__slider') {
+    document.querySelector('.effect-level__slider').noUiSlider.destroy();
+  }
+  textHashtags.value = '';
+  textDescription.value = '';
+  letNumberOfScale();
 };
 
 const onUserModalEscKeydown = (evt) => {
@@ -91,3 +104,86 @@ textDescription.addEventListener('blur', () => {
 
   reportAndSetCustomValidity(message, textDescription);
 });
+
+/* Submitting */
+
+const successWindowTemplate = document.querySelector('#success')
+  .content
+  .querySelector('.success');
+const errorWindowTemplate = document.querySelector('#error')
+  .content
+  .querySelector('.error');
+const successWindow = successWindowTemplate.cloneNode(true);
+const errorWindow = errorWindowTemplate.cloneNode(true);
+const successInner = successWindow.querySelector('.success__inner');
+const errorInner = errorWindow.querySelector('.error__inner');
+
+const onSuccessClickDown = (evt) => {
+  if (evt.target === successInner) {
+    evt.preventDefault();
+  } else {
+    document.body.removeChild(successWindow);
+    removeSuccessListener();
+  }
+};
+const onSuccessKeyDown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+  }
+  document.body.removeChild(successWindow);
+  removeSuccessListener();
+};
+const onErrorClickDown = (evt) => {
+  if (evt.target === errorInner) {
+    evt.preventDefault();
+  } else {
+    document.body.removeChild(errorWindow);
+    removeErrorListener();
+  }
+};
+const onErrorKeyDown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+  }
+  document.body.removeChild(errorWindow);
+  removeErrorListener();
+};
+const showSuccessErrorWindow = (window) => {
+  document.body.appendChild(window);
+  if (window === successWindow) {
+    document.addEventListener('keydown', onSuccessKeyDown);
+    document.addEventListener('click', onSuccessClickDown);
+  } else if (window === errorWindow) {
+    document.addEventListener('keydown', onErrorKeyDown);
+    document.addEventListener('click', onErrorClickDown);
+  }
+};
+
+const setFormSubmit = (onSuccess) => {
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+    fetch(
+      'https://23.javascript.pages.academy/kekstagram',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    ).then((response) => {
+      onSuccess();
+      if (response.ok) {
+        showSuccessErrorWindow(successWindow);
+      } else {
+        showSuccessErrorWindow(errorWindow);
+      }
+    })
+      .catch(() => {
+        onSuccess();
+        showSuccessErrorWindow(errorWindow);
+      });
+
+
+  });
+};
+
+export {setFormSubmit, closeImgUpload, onSuccessClickDown, onSuccessKeyDown, onErrorClickDown, onErrorKeyDown};

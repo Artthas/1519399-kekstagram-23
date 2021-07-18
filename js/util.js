@@ -1,5 +1,5 @@
 import {onSuccessClickDown, onSuccessKeyDown, onErrorClickDown, onErrorKeyDown} from './form.js';
-import {closeBigPictureOnClick, closeBigPictureOnKeyDown, bigPictureCancel} from './photo-full-size.js';
+import {closeBigPictureOnClick, closeBigPictureOnKeyDown, bigPictureCancel, commentsLoader, showMoreComments} from './photo-full-size.js';
 
 function getRandomInRange(min, max) {
   if (typeof(min) === 'number' && typeof(max) === 'number') {
@@ -34,6 +34,7 @@ const removeErrorListener = () => {
 const removeBigPictureListener = () => {
   bigPictureCancel.removeEventListener('click', closeBigPictureOnClick);
   bigPictureCancel.removeEventListener('click', closeBigPictureOnKeyDown);
+  commentsLoader.removeEventListener('click', showMoreComments);
 };
 
 export {getRandomInRange, checkMaxLengthString, getRandomArrayElement, isEscEvent, removeErrorListener, removeSuccessListener, removeBigPictureListener};

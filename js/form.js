@@ -186,4 +186,4 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
-export {setFormSubmit, closeImgUpload, onSuccessClickDown, onSuccessKeyDown, onErrorClickDown, onErrorKeyDown};
+export {setFormSubmit, closeImgUpload, onSuccessClickDown, onSuccessKeyDown, onErrorClickDown, onErrorKeyDown, imgUploadInput, imgUploadPreviewPicture};

@@ -8,7 +8,7 @@ const renderSimilarPhotos = (pictureArray) => {
 
   for (let i = 0; i < pictureArray.length; i++) {
     const pictureElement = pictureTemplate.cloneNode(true);
-    pictureElement.querySelector('.picture__img').setAttribute('index', `${i}`);
+    pictureElement.querySelector('.picture__img').setAttribute('index', `${pictureArray[i].id}`);
     pictureElement.querySelector('.picture__img').src = pictureArray[i].url;
     pictureElement.querySelector('.picture__likes').textContent = pictureArray[i].likes;
     pictureElement.querySelector('.picture__comments').textContent = pictureArray[i].comments.length;
@@ -17,4 +17,4 @@ const renderSimilarPhotos = (pictureArray) => {
   pictureList.appendChild(pictureListFragment);
 };
 
-export {renderSimilarPhotos};
+export {renderSimilarPhotos, pictureList};

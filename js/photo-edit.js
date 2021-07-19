@@ -1,7 +1,10 @@
+import {imgUploadInput, imgUploadPreviewPicture} from './form.js';
+
 const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const scaleControlValue = document.querySelector('.scale__control--value');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const EFFECT_STYLES = {
   chrome: { name: 'grayscale', measure: '' },
   sepia: { name: 'sepia', measure: '' },
@@ -42,7 +45,6 @@ scaleControlBigger.addEventListener('click', (evt) => {
 
 const sliderElement = document.querySelector('.effect-level__slider');
 const imgUploadEffects = document.querySelector('.img-upload__effects');
-const imgUploadPreviewPicture = document.querySelector('.img-upload__preview-picture');
 const effectLevelValue = document.querySelector('.effect-level__value');
 
 imgUploadEffects.addEventListener('change', (evt) => {
@@ -87,6 +89,25 @@ imgUploadEffects.addEventListener('change', (evt) => {
       const { name, measure } = EFFECT_STYLES[evt.target.value];
       imgUploadPreviewPicture.style = `filter: ${name}(${effectLevelValue.value}${measure})`;
     });
+  }
+});
+
+/* User Photo */
+
+document.querySelector('#upload-file').addEventListener('change', () => {
+  const file = imgUploadInput.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      imgUploadPreviewPicture.src = reader.result;
+    });
+
+    reader.readAsDataURL(file);
   }
 });
 

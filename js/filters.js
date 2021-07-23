@@ -2,27 +2,9 @@ import {getRandomInRange} from './util.js';
 import {renderSimilarPhotos, pictureList} from './photos-generation.js';
 
 const imgFilters = document.querySelector('.img-filters');
-const filterDefault = document.querySelector('#filter-default');
-const filterRandom = document.querySelector('#filter-random');
-const filterDiscussed = document.querySelector('#filter-discussed');
+const imgFiltersForm = document.querySelector('.img-filters__form');
 
-const getDefaultPhotos = (photos) => (evt) => {
-  const pictureArray = pictureList.querySelectorAll('.picture');
-  document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
-  evt.target.classList.add('img-filters__button--active');
-  for (let i = 0; i < pictureArray.length; i++) {
-    pictureList.removeChild(pictureArray[i]);
-  }
-  renderSimilarPhotos(photos);
-};
-
-const getRandomPhotos = (photos) => (evt) => {
-  const pictureArray = pictureList.querySelectorAll('.picture');
-  document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
-  evt.target.classList.add('img-filters__button--active');
-  for (let i = 0; i < pictureArray.length; i++) {
-    pictureList.removeChild(pictureArray[i]);
-  }
+const getRandomPhotos = (photos) => {
   const randomPhotos = photos.slice();
   randomPhotos.sort(() => {
     if (getRandomInRange(0, 2) === 0) {
@@ -37,13 +19,7 @@ const getRandomPhotos = (photos) => (evt) => {
   renderSimilarPhotos(randomPhotos);
 };
 
-const getDiscussedPhotos = (photos) => (evt) => {
-  const pictureArray = pictureList.querySelectorAll('.picture');
-  document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
-  evt.target.classList.add('img-filters__button--active');
-  for (let i = 0; i < pictureArray.length; i++) {
-    pictureList.removeChild(pictureArray[i]);
-  }
+const getDiscussedPhotos = (photos) => {
   const discussedPhotos = photos.slice().sort((firstValue, secondValue) => {
     if (firstValue.comments.length > secondValue.comments.length) {
       return -1;
@@ -56,4 +32,20 @@ const getDiscussedPhotos = (photos) => (evt) => {
   renderSimilarPhotos(discussedPhotos);
 };
 
-export {getDiscussedPhotos, getDefaultPhotos, getRandomPhotos, filterRandom, filterDiscussed, filterDefault, imgFilters};
+const getFilteredPhotos = (photos) => (evt) => {
+  const pictureArray = pictureList.querySelectorAll('.picture');
+  document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
+  evt.target.classList.add('img-filters__button--active');
+  for (let i = 0; i < pictureArray.length; i++) {
+    pictureList.removeChild(pictureArray[i]);
+  }
+  if (evt.target.id === 'filter-default') {
+    renderSimilarPhotos(photos);
+  } else if (evt.target.id === 'filter-random') {
+    getRandomPhotos(photos);
+  } else if (evt.target.id === 'filter-discussed') {
+    getDiscussedPhotos(photos);
+  }
+};
+
+export {getDiscussedPhotos,  getRandomPhotos, getFilteredPhotos, imgFiltersForm, imgFilters};

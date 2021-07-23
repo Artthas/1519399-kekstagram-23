@@ -4,6 +4,7 @@ const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const scaleControlValue = document.querySelector('.scale__control--value');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
+const effectLevel = document.querySelector('.effect-level');
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const EFFECT_STYLES = {
   chrome: { name: 'grayscale', measure: '' },
@@ -18,7 +19,7 @@ const letNumberOfScale = () => {
   numberOfScale = 1;
 };
 
-function scaleImage(maxValue, isEnlarge, evt) {
+const scaleImage = (maxValue, isEnlarge, evt) => {
   scaleControlValue.value = parseFloat(scaleControlValue.value);
   if (scaleControlValue.value === maxValue) {
     evt.preventDefault();
@@ -31,7 +32,7 @@ function scaleImage(maxValue, isEnlarge, evt) {
   }
   scaleControlValue.value += '%';
   imgUploadPreview.style = `transform: scale(${numberOfScale})`;
-}
+};
 
 scaleControlSmaller.addEventListener('click', (evt) => {
   scaleImage('25', '-', evt);
@@ -59,6 +60,7 @@ imgUploadEffects.addEventListener('change', (evt) => {
     connect: 'lower',
   };
   if (imgUploadPreviewPicture.classList.length > 1) {
+    effectLevel.classList.add('hidden');
     sliderElement.noUiSlider.destroy();
     imgUploadPreviewPicture.style = '';
   }
@@ -68,6 +70,7 @@ imgUploadEffects.addEventListener('change', (evt) => {
     if (effects[i] === evt.target.value) {
       effectClass += evt.target.value;
       imgUploadPreviewPicture.classList.add(effectClass);
+      effectLevel.classList.remove('hidden');
       noUiSlider.create(sliderElement, options);
     }
   }

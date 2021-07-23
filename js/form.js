@@ -96,6 +96,19 @@ textHashtags.addEventListener('blur', () => {
   reportAndSetCustomValidity(message, textHashtags);
 });
 
+textHashtags.addEventListener('input', () => {
+  const hashtags = textHashtags.value.split(' ').map((t) => t.toLowerCase());
+  const hashtagsMaxLength = 5;
+  let message = '';
+  if (textHashtags.value === '') {
+    message = '';
+    reportAndSetCustomValidity(message, textHashtags);
+  } else if (hashtags.length <= hashtagsMaxLength) {
+    message = '';
+    reportAndSetCustomValidity(message, textHashtags);
+  }
+});
+
 textDescription.addEventListener('blur', () => {
   let message = '';
   const textDescriptionMaxSymbols = 140;
@@ -118,7 +131,7 @@ const errorWindow = errorWindowTemplate.cloneNode(true);
 const successInner = successWindow.querySelector('.success__inner');
 const errorInner = errorWindow.querySelector('.error__inner');
 
-const onSuccessClickDown = (evt) => {
+const onSuccessClick = (evt) => {
   if (evt.target === successInner) {
     evt.preventDefault();
   } else {
@@ -133,7 +146,7 @@ const onSuccessKeyDown = (evt) => {
   document.body.removeChild(successWindow);
   removeSuccessListener();
 };
-const onErrorClickDown = (evt) => {
+const onErrorClick = (evt) => {
   if (evt.target === errorInner) {
     evt.preventDefault();
   } else {
@@ -152,10 +165,10 @@ const showSuccessErrorWindow = (window) => {
   document.body.appendChild(window);
   if (window === successWindow) {
     document.addEventListener('keydown', onSuccessKeyDown);
-    document.addEventListener('click', onSuccessClickDown);
+    document.addEventListener('click', onSuccessClick);
   } else if (window === errorWindow) {
     document.addEventListener('keydown', onErrorKeyDown);
-    document.addEventListener('click', onErrorClickDown);
+    document.addEventListener('click', onErrorClick);
   }
 };
 
@@ -186,4 +199,4 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
-export {setFormSubmit, closeImgUpload, onSuccessClickDown, onSuccessKeyDown, onErrorClickDown, onErrorKeyDown, imgUploadInput, imgUploadPreviewPicture};
+export {setFormSubmit, closeImgUpload, onSuccessClick, onSuccessKeyDown, onErrorClick, onErrorKeyDown, imgUploadInput, imgUploadPreviewPicture};

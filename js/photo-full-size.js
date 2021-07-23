@@ -27,7 +27,7 @@ const onCommentsLoaderClick = () => {
   const number = bigPicture.querySelectorAll('.social__comment').length - socialCommentList.querySelectorAll('.hidden').length;
   socialCommentCount.textContent = `${number} из ${bigPicture.querySelectorAll('.social__comment').length} комментариев`;
 };
-const onBigPictureClick = () => {
+const onBigPictureCancelClick = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   const newSocialCommentList = bigPicture.querySelectorAll('.social__comment');
@@ -38,14 +38,14 @@ const onBigPictureClick = () => {
   }
   removeBigPictureListener();
 };
-const onBigPictureKeyDown = (evt) => {
+const onBigPictureEscKeyDown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
     const newSocialCommentList = bigPicture.querySelectorAll('.social__comment');
     socialCommentCount.textContent = '';
-    for (let i = newSocialCommentList.length - 1; i > 1; i--) {
+    for (let i = newSocialCommentList.length - 1; i >= 0; i--) {
       socialCommentList.removeChild(newSocialCommentList[i]);
     }
     removeBigPictureListener();
@@ -76,8 +76,8 @@ const onImgClick = (photos) => (evt) => {
     }
     socialCommentCount.textContent = `${bigPicture.querySelectorAll('.social__comment').length - socialCommentList.querySelectorAll('.hidden').length} из ${bigPicture.querySelectorAll('.social__comment').length} комментариев`;
     document.body.classList.add('modal-open');
-    bigPictureCancel.addEventListener('click', onBigPictureClick);
-    document.addEventListener('keydown', onBigPictureKeyDown);
+    bigPictureCancel.addEventListener('click', onBigPictureCancelClick);
+    document.addEventListener('keydown', onBigPictureEscKeyDown);
     commentsLoader.addEventListener('click', onCommentsLoaderClick);
   }
 };
@@ -107,11 +107,11 @@ const onImgKeyDown = (photos) => (evt) => {
       }
       socialCommentCount.textContent = `${bigPicture.querySelectorAll('.social__comment').length - socialCommentList.querySelectorAll('.hidden').length} из ${bigPicture.querySelectorAll('.social__comment').length} комментариев`;
       document.body.classList.add('modal-open');
-      bigPictureCancel.addEventListener('click', onBigPictureClick);
-      document.addEventListener('keydown', onBigPictureKeyDown);
+      bigPictureCancel.addEventListener('click', onBigPictureCancelClick);
+      document.addEventListener('keydown', onBigPictureEscKeyDown);
       commentsLoader.addEventListener('click', onCommentsLoaderClick);
     }
   }
 };
 
-export {onImgClick, onImgKeyDown, picturesContainer, bigPictureCancel, onBigPictureClick, onBigPictureKeyDown, commentsLoader, onCommentsLoaderClick};
+export {onImgClick, onImgKeyDown, picturesContainer, bigPictureCancel, onBigPictureCancelClick, onBigPictureEscKeyDown, commentsLoader, onCommentsLoaderClick};

@@ -1,4 +1,4 @@
-import {onSuccessClick, onSuccessKeyDown, onErrorClick, onErrorKeyDown} from './form.js';
+import {onSuccessClick, onSuccessKeyDown, onErrorClick, onErrorKeyDown, onUserModalEscKeydown, closeImgUpload, imgUploadCancel} from './form.js';
 import {onBigPictureCancelClick, onBigPictureEscKeyDown, bigPictureCancel, commentsLoader, onCommentsLoaderClick} from './photo-full-size.js';
 
 const getRandomInRange = (min, max) => {
@@ -35,12 +35,17 @@ const removeBigPictureListener = () => {
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);
 };
 
-function debounce (callback, timeoutDelay = 500) {
+const removeClosingUserModalListeners = () => {
+  document.removeEventListener('keydown', onUserModalEscKeydown);
+  imgUploadCancel.removeEventListener('click', closeImgUpload);
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
-export {getRandomInRange, checkMaxLengthString, getRandomArrayElement, isEscEvent, removeErrorListener, removeSuccessListener, removeBigPictureListener, debounce};
+export {getRandomInRange, checkMaxLengthString, getRandomArrayElement, isEscEvent, removeErrorListener, removeSuccessListener, removeBigPictureListener, removeClosingUserModalListeners, debounce};

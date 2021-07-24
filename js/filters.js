@@ -32,7 +32,7 @@ const getDiscussedPhotos = (photos) => {
   renderSimilarPhotos(discussedPhotos);
 };
 
-const getFilteredPhotos = (photos) => (evt) => {
+const onImgFilterClickAndKeydown = (photos) => (evt) => {
   const pictureArray = pictureList.querySelectorAll('.picture');
   document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
   evt.target.classList.add('img-filters__button--active');
@@ -48,4 +48,4 @@ const getFilteredPhotos = (photos) => (evt) => {
   }
 };
 
-export {getDiscussedPhotos,  getRandomPhotos, getFilteredPhotos, imgFiltersForm, imgFilters};
+export {getDiscussedPhotos,  getRandomPhotos, onImgFilterClickAndKeydown, imgFiltersForm, imgFilters};

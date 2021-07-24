@@ -8,7 +8,7 @@ import './filters.js';
 import {renderSimilarPhotos} from './photos-generation.js';
 import {closeImgUpload, setFormSubmit} from './form.js';
 import {onImgClick, onImgKeyDown, picturesContainer} from './photo-full-size.js';
-import {getFilteredPhotos, imgFiltersForm, imgFilters} from './filters.js';
+import {onImgFilterClickAndKeydown, imgFiltersForm, imgFilters} from './filters.js';
 import {debounce} from './util.js';
 
 fetch('https://23.javascript.pages.academy/kekstagram/data')
@@ -22,7 +22,7 @@ fetch('https://23.javascript.pages.academy/kekstagram/data')
   .then((photos) => {
     renderSimilarPhotos(photos);
     imgFilters.classList.remove('img-filters--inactive');
-    imgFiltersForm.addEventListener('click', debounce(getFilteredPhotos(photos)));
+    imgFiltersForm.addEventListener('click', debounce(onImgFilterClickAndKeydown(photos)));
     picturesContainer.addEventListener('click', onImgClick(photos));
     picturesContainer.addEventListener('keydown', onImgKeyDown(photos));
   })

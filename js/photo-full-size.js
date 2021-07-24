@@ -45,6 +45,7 @@ const onBigPictureEscKeyDown = (evt) => {
     document.body.classList.remove('modal-open');
     const newSocialCommentList = bigPicture.querySelectorAll('.social__comment');
     socialCommentCount.textContent = '';
+    commentsLoader.classList.remove('hidden');
     for (let i = newSocialCommentList.length - 1; i >= 0; i--) {
       socialCommentList.removeChild(newSocialCommentList[i]);
     }

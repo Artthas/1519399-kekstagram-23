@@ -114,4 +114,4 @@ document.querySelector('#upload-file').addEventListener('change', () => {
   }
 });
 
-export {letNumberOfScale};
+export {letNumberOfScale, effectLevel, scaleControlValue, imgUploadPreview};

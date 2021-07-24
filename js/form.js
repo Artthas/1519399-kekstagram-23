@@ -1,5 +1,5 @@
-import {isEscEvent, removeSuccessListener, removeErrorListener} from './util.js';
-import {letNumberOfScale} from './photo-edit.js';
+import {isEscEvent, removeSuccessListener, removeErrorListener, removeClosingUserModalListeners} from './util.js';
+import {letNumberOfScale, scaleControlValue, imgUploadPreview, effectLevel} from './photo-edit.js';
 
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
@@ -16,6 +16,7 @@ const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const imgUploadCancel = document.querySelector('#upload-cancel');
 const textHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
+const effectLevelSlider = document.querySelector('.effect-level__slider');
 const cancelEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
@@ -30,24 +31,25 @@ textDescription.addEventListener('keydown', cancelEscKeydown);
 const closeImgUpload = () => {
   imgUploadOverlay.classList.add(CLASS_HIDDEN);
   document.body.classList.remove(CLASS_MODAL_OPEN);
+  effectLevel.classList.add('hidden');
   imgUploadInput.value = '';
   imgUploadPreviewPicture.className = 'img-upload__preview-picture';
   imgUploadPreviewPicture.style = '';
-  document.querySelector('.img-upload__preview').style = '';
-  document.querySelector('.scale__control--value').value = '100%';
-  if (document.querySelector('.effect-level__slider').className !== 'effect-level__slider') {
-    document.querySelector('.effect-level__slider').noUiSlider.destroy();
+  imgUploadPreview.style = '';
+  scaleControlValue.value = '100%';
+  if (effectLevelSlider.className !== 'effect-level__slider') {
+    effectLevelSlider.noUiSlider.destroy();
   }
   textHashtags.value = '';
   textDescription.value = '';
   letNumberOfScale();
+  removeClosingUserModalListeners();
 };
 
 const onUserModalEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
     closeImgUpload();
-    document.removeEventListener('keydown', onUserModalEscKeydown);
   }
 };
 
@@ -56,16 +58,10 @@ const openImgUpload = () => {
   document.body.classList.add(CLASS_MODAL_OPEN);
 
   document.addEventListener('keydown', onUserModalEscKeydown);
+  imgUploadCancel.addEventListener('click', closeImgUpload);
 };
 
-imgUploadInput.addEventListener('change', () => {
-  openImgUpload();
-});
-
-imgUploadCancel.addEventListener('click', () => {
-  closeImgUpload();
-  document.removeEventListener('keydown', onUserModalEscKeydown);
-});
+imgUploadInput.addEventListener('change', openImgUpload);
 
 /* Validation */
 
@@ -199,4 +195,4 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
-export {setFormSubmit, closeImgUpload, onSuccessClick, onSuccessKeyDown, onErrorClick, onErrorKeyDown, imgUploadInput, imgUploadPreviewPicture};
+export {setFormSubmit, closeImgUpload, onSuccessClick, onSuccessKeyDown, onErrorClick, onErrorKeyDown, onUserModalEscKeydown, imgUploadCancel, imgUploadInput, imgUploadPreviewPicture};
